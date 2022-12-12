@@ -1,0 +1,348 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/includes :: head">
+  <link rel="stylesheet"
+        href=
+                "https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity=
+                "sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+        crossorigin="anonymous">
+  <style>
+    table {
+      border-collapse: collapse;
+    }
+    th {
+      background-color:green;
+      Color:white;
+    }
+    th, td {
+      width:100px;
+      text-align:center;
+      border:1px solid black;
+      padding:5px
+
+    }
+    .geeks {
+      border-right:hidden;
+    }
+    .gfg {
+      border-collapse:separate;
+      border-spacing:15px 15px;
+    }
+    h1 {
+      color:green;
+    }
+  </style>
+<body>
+<nav th:replace="fragments/header :: nav"></nav>
+<main role="main" class="container">
+  <div class="row" th:if="${message != null}">
+    <h3 th:text="${message}" th:class="${success} ? 'bg-success' : 'bg-danger'"></h3>
+  </div>
+  <div class="row">
+    <form method="post" th:action="@{/add}" th:object="${itemModel}" class="col-10" style="box-shadow:10px; background-color:aqua; width: 600px; padding: 20px; border-radius: 10px;">
+      <div class="row">
+        <div class="col">
+          <label for="field1">Shipper Bill No</label>
+          <input type="text" class="form-control" required="required" maxlength="10">
+        </div>
+        <div class="col">
+          <label for="field1">Date</label>
+          <input type="text" class="form-control" required="required">
+        </div>
+      </div>
+
+      <br>
+
+      <div class="row">
+        <div class="col">
+          <label for="field1">Shipper Name</label>
+          <input type="text" class="form-control" required="required" maxlength="20">
+        </div>
+        <div class="col">
+          <label for="field1">Consignee1 </label>
+          <input type="text" class="form-control" required="required" maxlength="20">
+
+        </div>
+
+      </div>
+
+      <br>
+
+      <div class="row">
+        <div class="col">
+          <label for="field1">Client</label>
+          <select id="operation" name="operation" class="custom-select" required="required">
+            <option value="Team Global Forwarders">Team Global Forwarders</option>
+            <option value="Global Forwarders Services">Global Forwarders Service</option>
+          </select>
+        </div>
+      </div>
+
+
+      <br>
+
+      <div class="row">
+        <div class="col">
+          <label for="field1">POD</label>
+          <input id="field1" name="field1" type="text" required="required" maxlength="10">
+        </div>
+        <div class="col">
+          <label for="field1">POL</label>
+          <input id="field1" name="field1" type="text" required="required" maxlength="10">
+        </div>
+      </div>
+  </div>
+  <br>
+
+  <div class="form-group row" th:if="${itemModel != null}" style="">
+    <label for="Client" class="col-3 col-form-label">Materials</label>
+    <br>
+
+  </div>
+  <table class="table table-striped table-bordered">
+    <thead class="thead-dark">
+    <tr>
+      <th class="text-center"><select id="operation" name="operation" class="custom-select" required="required">
+        <option value="Cartoon">Cartoon</option>
+        <option value="Mickey">Mickey1</option>
+        <option value="Authur">Authur1</option>
+      </select></th>
+      <th class="text-center">W</th>
+      <th class="text-center">H</th>
+      <th class="text-center">B</th>
+      <th class="text-center">CBM</th>
+      <th class="text-center">KG</th>
+      <td><button class="btn btn-success" data-toggle="modal" data-target="#inventoryUpdateModal" th:attr="data-id=${item.itemId}">
+        +
+      </button></td>
+      <td><button class="btn btn-warning" data-toggle="modal" data-target="#inventoryUpdateModal" th:attr="data-id=${item.itemId}">
+        -
+      </button></td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${itemList}">
+      <td class="text-center">
+        <a th:href="@{'/view/'+${item.itemId}}" th:text="${item.Shipper Bill No}"></a>
+      </td>
+      <td class="text-center" th:text="${item.Shipper Name}"></td>
+      <td class="text-center" th:text="${item.Cosignee1}"></td>
+      <td class="text-center" th:text="${item.POL}"></td>
+      <td class="text-center" th:text="${item.POD}"></td>
+      <td class="text-center" th:text="${#dates.format(item.Date,'dd-MM-yyyy HH:mm')}"></td>
+      <td class="text-center" th:text="${item.Client == null} ? 0 : ${item.Client.count}"></td>
+
+    </tr>
+    </tbody>
+  </table>
+  <table class="table table-striped table-bordered">
+    <thead class="thead-dark">
+    <tr>
+      <th class="text-center"><select id="operation" name="operation" class="custom-select" required="required">
+        <option value="Pallet">Pallet1</option>
+        <option value="Pallet1">Pallet2</option>
+        <option value="Pallet2">Pallet3</option>
+      </select></th>
+      <th class="text-center">W</th>
+      <th class="text-center">H</th>
+      <th class="text-center">B</th>
+      <th class="text-center">CBM</th>
+      <th class="text-center">KG</th>
+      <td><button class="btn btn-success" data-toggle="modal" data-target="#inventoryUpdateModal" th:attr="data-id=${item.itemId}">
+        +
+      </button></td>
+      <td><button class="btn btn-warning" data-toggle="modal" data-target="#inventoryUpdateModal" th:attr="data-id=${item.itemId}">
+        -
+      </button></td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${itemList}">
+      <td class="text-center">
+        <a th:href="@{'/view/'+${item.itemId}}" th:text="${item.Shipper Bill No}"></a>
+      </td>
+      <td class="text-center" th:text="${item.Shipper Name}"></td>
+      <td class="text-center" th:text="${item.Cosignee1}"></td>
+      <td class="text-center" th:text="${item.POL}"></td>
+      <td class="text-center" th:text="${item.POD}"></td>
+      <td class="text-center" th:text="${#dates.format(item.Date,'dd-MM-yyyy HH:mm')}"></td>
+      <td class="text-center" th:text="${item.Client == null} ? 0 : ${item.Client.count}"></td>
+
+    </tr>
+    </tbody>
+  </table>
+
+  <table class="table table-striped table-bordered">
+    <thead class="thead-dark">
+    <tr>
+      <th class="text-center"><select id="operation" name="operation" class="custom-select" required="required">
+        <option value="Material Type">Material Type</option>
+        <option value="Type of Materials">Types of Materials</option>
+        <option value="Materials Compensation">Materials Compensation</option>
+      </select></th>
+      <th class="text-center">W</th>
+      <th class="text-center">H</th>
+      <th class="text-center">B</th>
+      <th class="text-center">CBM</th>
+      <th class="text-center">KG</th>
+      <td><button class="btn btn-success" data-toggle="modal" data-target="#inventoryUpdateModal" th:attr="data-id=${item.itemId}">
+        +
+      </button></td>
+      <td><button class="btn btn-warning" data-toggle="modal" data-target="#inventoryUpdateModal" th:attr="data-id=${item.itemId}">
+        -
+      </button></td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${itemList}">
+      <td class="text-center">
+        <a th:href="@{'/view/'+${item.itemId}}" th:text="${item.Shipper Bill No}"></a>
+      </td>
+      <td class="text-center" th:text="${item.Shipper Name}"></td>
+      <td class="text-center" th:text="${item.Cosignee1}"></td>
+      <td class="text-center" th:text="${item.POL}"></td>
+      <td class="text-center" th:text="${item.POD}"></td>
+      <td class="text-center" th:text="${#dates.format(item.Date,'dd-MM-yyyy HH:mm')}"></td>
+      <td class="text-center" th:text="${item.Client == null} ? 0 : ${item.Client.count}"></td>
+
+    </tr>
+    </tbody>
+  </table>
+  <br>
+
+  <div class="row">
+    <div class="col">
+
+      <label for="field1">Total</label>
+      <input id="field1" name="field1" type="text" required="required" maxlength="10" value="CBM">
+    </div>
+    <div class="col">
+
+      <input id="field1" name="field1" type="text" required="required" maxlength="10" value="KG">
+    </div>
+  </div>
+  <br>
+  <div class="btn-group">
+    <button name="submit" type="submit" class="btn btn-primary">Submit</button>
+  </div>
+
+
+  <div class="btn-group">
+    <button name="submit" type="submit" class="btn btn-primary">Cancel</button>
+  </div>
+  </div>
+  </form>
+  </div>
+</main>
+<script src="component/jquery/jquery.js"></script>
+<script src="component/jquery/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+  var total = 0;
+  var tot = 0;
+
+  var item = null;
+  var price = 0;
+
+
+  var a = "";
+
+  $("td").on("click",function()
+  {
+
+    a = $(this).prop('id')
+
+  });
+
+
+  function add()
+  {
+    if(a == "Materials")
+    {
+
+      item = "Chocolate";
+      price = 32;
+
+
+    }
+    else if(a == "Mango")
+    {
+      item = "Mango";
+      price = 35;
+
+    }
+    else if(a == "Venila")
+    {
+      item = "Venila";
+      price = 40;
+
+    }
+    else if(a == "Strawberry")
+    {
+      item = "Strawberry";
+      price = 45;
+
+    }
+
+    else if(a == "MixFruit")
+    {
+      item = "Strawberry";
+      price = 35;
+
+    }
+
+    var qty = $('#qty').val();
+    tot = qty * price;
+
+    var table1 =
+
+            "<tr>" +
+            "<td><button type='button' name='record' class='btn btn-warning' onclick='deleterow(this)'>Delete</td>" +
+            "<td>" + item    +  "</td>" +
+            "<td>" + price    +  "</td>" +
+
+            "<td>" + qty    +  "</td>" +
+
+            "<td>" + tot    +  "</td>" +
+
+            "</tr>" ;
+
+
+    total += Number(tot);
+    $('#total').val(total);
+
+
+    $("table tbody").append(table1);
+    $("exampleModal").modal('toggle');
+    $('#qty').val("1");
+
+
+
+
+  }
+
+  function deleterow(e)
+  {
+    total_cost = parseInt($(e).parent().parent().find('td:last').text(),10);
+    total -= total_cost;
+    $('#total').val(total);
+    $(e).parent().parent().remove();
+
+
+
+  }
+
+
+
+  $('#reset').click(function()
+  {
+    location.reload();
+  });
+
+</script>
+</body>
+</head>
+</html>
